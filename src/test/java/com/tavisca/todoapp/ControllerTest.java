@@ -53,4 +53,19 @@ public class ControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json("{\"1\": {\"id\": 1,\"firstName\": \"Tapsi\" } }"));
         }
+     @Test
+     public void getAnItemById() throws Exception {
+         // given
+
+         given(todoRepo.getItems(1)).willReturn(todo1);
+
+         // when + then
+         this.mockMvc.perform(get("/todos/1"))
+                 .andExpect(status().isOk())
+                 .andExpect(content().json
+                         ("{\"id\": 1,\"firstName\": \"Tapsi\" }"));
+     }
+
+
+
 }
