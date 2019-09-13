@@ -69,6 +69,13 @@ public class ControllerTest {
     }
 
     @Test
+    public void testEmptyTodo() throws Exception {
+        // when + then
+        this.mockMvc.perform(get("/todos"))
+                .andExpect(status().isNotFound());
+    }
+    
+    @Test
      public void getAnItemById() throws Exception {
          // given
 
@@ -122,8 +129,8 @@ public class ControllerTest {
     public void deleteTodoItem() throws Exception {
 
         todoservice todo =  Mockito.mock(todoservice.class);
-        Hashtable<Integer,todo> someModelList = todo.getAll();
-        Mockito.when(todoRepo.getAll()).thenReturn(someModelList);
+        Hashtable<Integer,todo> hashtable = todo.getAll();
+        Mockito.when(todoRepo.getAll()).thenReturn(hashtable);
         this.mockMvc.perform(delete("/todos/1"))
                 .andExpect(status().isOk());
     }

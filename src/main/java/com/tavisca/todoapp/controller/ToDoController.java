@@ -17,15 +17,13 @@ public class ToDoController {
     todoservice todo;
 
     @GetMapping("/todos")
-    public Hashtable<Integer,todo> getAll() {
-        return todo.getAll();
+    public ResponseEntity<Hashtable<Integer,todo>> getAll(){
+        if(todo.getAll()!=null)
+            return new ResponseEntity<>(todo.getAll(),HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-//    @GetMapping("/todos/{id}")
-//    public todo getItems(@PathVariable("id") int id) {
-//
-//        return todo.getItems(id);
-//    }
     @GetMapping("/todos/{itemId}")
     public ResponseEntity<todo> getTodo(@PathVariable("itemId")int id) {
         if(todo.getItems(id)!=null)
