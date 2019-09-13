@@ -1,0 +1,74 @@
+*{
+	padding: 0;
+  	margin: 0;
+  	box-sizing: border-box;
+}
+#mytable td {
+  text-align: center;
+  padding: 12px;
+}
+
+.btn
+{
+	display: block;
+	width: 300px;
+	height: 100px;
+}
+.btn:hover {
+  background-color: #3e8e41;
+  color: white;
+}
+#mytable tr.header, #mytable tr:hover {
+  background-color: #f1f1f1;
+}
+#main
+{
+  	width: 1360px;
+  	height: 658px;
+  	display: -webkit-flex; /* Safari */
+  	display: flex;
+}
+#ToDoTab
+{
+
+  	width: 1360px;
+  	height: 658px;
+  	
+}
+#divList
+{
+	
+	display : inline-block;
+    width: 100px;
+}
+#mytable
+{
+	width: 70%;
+    border-collapse: collapse;
+    position: absolute;
+    border: 1px solid #ddd;
+  	font-size: 18px;
+}
+#myInput {
+ 
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  width: 50%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+#btsubmit
+{
+	width: 150px;
+	height: 100px;
+
+}
+#btSubmit:hover
+{
+	background-color: #3e8e41;
+  	color: white;
+}
+#main div:nth-of-type(1){flex-grow: 0;}
+#main div:nth-of-type(2){flex-grow: 3;}
