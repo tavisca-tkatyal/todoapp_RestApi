@@ -1,6 +1,5 @@
 package com.tavisca.todoapp;
-
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tavisca.todoapp.model.todo;
 import com.tavisca.todoapp.service.todoservice;
 import org.junit.Before;
@@ -11,11 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 
 import java.util.Hashtable;
+import java.util.Optional;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -52,7 +53,7 @@ public class ControllerTest {
         this.mockMvc.perform(get("/todos"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("{\"1\": {\"id\": 1,\"firstName\": \"Tapsi\" } }"));
-        }
+    }
      @Test
      public void getAnItemById() throws Exception {
          // given
@@ -65,6 +66,26 @@ public class ControllerTest {
                  .andExpect(content().json
                          ("{\"id\": 1,\"firstName\": \"Tapsi\" }"));
      }
+
+    @Test
+    public void addTodoItem() throws Exception {
+        // given
+
+        todo1.setId(2);
+        todo1.setFirstName("Ojas");
+        Hashtable<Integer, todo> item = new Hashtable<>();
+        item.put(2, todo1);
+        given(todoRepo.addItem("Ojas")).willReturn(item);
+        given(todoRepo.getItems(2)).willReturn(todo1);
+
+        // when + then
+        ObjectMapper mapper = new ObjectMapper();
+        this.mockMvc.perform(post("/todos")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(todo1)))
+                .andExpect(status().isOk());
+    }
+
 
 
 
