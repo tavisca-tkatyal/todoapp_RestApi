@@ -2,10 +2,12 @@ package com.tavisca.todoapp;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tavisca.todoapp.model.todo;
 import com.tavisca.todoapp.service.todoservice;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -90,19 +92,28 @@ public class ControllerTest {
     public void updateTodoItem() throws Exception {
         // given
         Hashtable<Integer,todo> item = new Hashtable<>();
-        todo1.setId(3);
+        todo1.setId(1);
         todo1.setFirstName("Varsha");
-        item.put(3,todo1);
+        item.put(1,todo1);
 
-        given(todoRepo.updateItem(3,"varsha")).willReturn(item);
+        given(todoRepo.updateItem(1,"varsha")).willReturn(item);
 
         // when + then
         ObjectMapper mapper = new ObjectMapper();
-        this.mockMvc.perform(put("/todos/3")
+        this.mockMvc.perform(put("/todos/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(todo1)))
                 .andExpect(status().isOk());
     }
 
+    @Test
+    public void deleteTodoItem() throws Exception {
+
+        todoservice todo =  Mockito.mock(todoservice.class);
+        Hashtable<Integer,todo> someModelList = todo.getAll();
+        Mockito.when(todoRepo.getAll()).thenReturn(someModelList);
+        this.mockMvc.perform(delete("/todos/1"))
+                .andExpect(status().isOk());
+    }
 
 }
