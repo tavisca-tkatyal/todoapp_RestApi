@@ -86,7 +86,23 @@ public class ControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    public void updateTodoItem() throws Exception {
+        // given
+        Hashtable<Integer,todo> item = new Hashtable<>();
+        todo1.setId(3);
+        todo1.setFirstName("Varsha");
+        item.put(3,todo1);
 
+        given(todoRepo.updateItem(3,"varsha")).willReturn(item);
+
+        // when + then
+        ObjectMapper mapper = new ObjectMapper();
+        this.mockMvc.perform(put("/todos/3")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(todo1)))
+                .andExpect(status().isOk());
+    }
 
 
 }
