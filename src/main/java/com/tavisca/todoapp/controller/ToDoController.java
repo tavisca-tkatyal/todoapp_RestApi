@@ -2,6 +2,8 @@ package com.tavisca.todoapp.controller;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.tavisca.todoapp.service.todoservice;
 import com.tavisca.todoapp.model.todo;
@@ -19,11 +21,18 @@ public class ToDoController {
         return todo.getAll();
     }
 
-    @GetMapping("/todos/{id}")
-    public todo getItems(@PathVariable("id") int id) {
-        return todo.getItems(id);
+//    @GetMapping("/todos/{id}")
+//    public todo getItems(@PathVariable("id") int id) {
+//
+//        return todo.getItems(id);
+//    }
+    @GetMapping("/todos/{itemId}")
+    public ResponseEntity<todo> getTodo(@PathVariable("itemId")int id) {
+        if(todo.getItems(id)!=null)
+            return new ResponseEntity<>(todo.getItems(id),HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
     @PostMapping("/todos")
     public Hashtable<Integer,todo> addItem(@RequestBody String json) {
       JSONObject obj = new JSONObject(json);
